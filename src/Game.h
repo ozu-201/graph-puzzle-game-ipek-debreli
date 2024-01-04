@@ -15,8 +15,8 @@ namespace list{
 
 class Game{
 public:
-    //std::vector<std::string> readDictionary();
-    void readDictionary();
+    std::vector<std::string> readDictionary();
+    std::vector<std::string> filteredWords(std::vector<std::string> words, int length);
     list::Graph createGraph(const std::vector<std::string> words, int length);
     bool isConnected(const std::string& word1,const std::string& word2);
 

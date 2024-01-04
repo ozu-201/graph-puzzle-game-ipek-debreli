@@ -2,6 +2,8 @@
 // Created by Olcay Taner YILDIZ on 8.05.2023.
 //
 
+#include <vector>
+#include <iostream>
 #include "Graph.h"
 #include "../../Array/DisjointSet.h"
 #include "../Queue.h"
@@ -170,5 +172,60 @@ namespace list {
             }
         }
     }
+
+    void Graph::breadthFirstSearch(std::vector<std::string> filteredWords, const std::string& startWord, const std::string& endWord) {
+        std::vector<bool> isVisited(filteredWords.size(), false);
+        std::vector<int> List(filteredWords.size(), -1);
+        std::vector<int> paths(filteredWords.size(),-1);
+
+        std::vector<std::vector<int>> pathList(filteredWords.size(),paths);
+
+        Edge* edge;
+        int fromNode, toNode;
+        Queue queue = Queue();
+        int startingPosition;
+        std::vector<std::string> orderedPath;
+
+        for(startingPosition = 0; startingPosition < filteredWords.size(); startingPosition++){
+            if(filteredWords[startingPosition] == startWord){
+                break;
+            }
+        }
+
+        queue.enqueue(new Node(startingPosition));
+        isVisited[startingPosition] = true;
+
+
+        while (!queue.isEmpty()){
+            fromNode = queue.dequeue()->getData();
+            edge = edges[fromNode].getHead();
+            while (edge != nullptr) {
+                toNode = edge->getTo();
+                if (!isVisited[toNode]){
+                    isVisited[toNode] = true;
+                    queue.enqueue(new Node(toNode));
+
+                    if (filteredWords[toNode] != endWord){
+                        //for()
+                        orderedPath.push_back(filteredWords[toNode]);
+                    }
+                }
+
+                edge = edge->getNext();
+            }
+        }
+
+
+
+        if(orderedPath.empty()){
+            std::cout << "No path." << std::endl;
+        }
+        std::cout << startWord << std::endl;
+        for (int i = 0; i < int(orderedPath.size()); i++){
+            std::cout << orderedPath[i] << std::endl;
+        }
+        std::cout << endWord << std::endl;
+    }
+
 
 }
